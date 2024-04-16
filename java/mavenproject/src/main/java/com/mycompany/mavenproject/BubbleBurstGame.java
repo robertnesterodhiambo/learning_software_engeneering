@@ -18,6 +18,7 @@ public class BubbleBurstGame {
     private JFrame gameFrame;
     private JPanel gamePanel;
     private JLabel timerLabel;
+    private JLabel sideTimerLabel;
     private JButton startButton;
     private JButton restartButton;
     private JSlider difficultySlider;
@@ -76,7 +77,7 @@ public class BubbleBurstGame {
         gameFrame.setVisible(true);
         spawnBubbles();
         setupTimer();
-        timer.restart();
+        timer.start();
         roundInProgress = true;
     }
 
@@ -84,6 +85,8 @@ public class BubbleBurstGame {
         gameFrame = new JFrame("Bubble Burst Game - Round " + currentRound);
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameFrame.setLayout(new BorderLayout());
+
+        JPanel gameContainer = new JPanel(new BorderLayout());
 
         gamePanel = new JPanel() {
             @Override
@@ -104,8 +107,16 @@ public class BubbleBurstGame {
         timerLabel.setHorizontalAlignment(JLabel.CENTER);
         timerLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-        gameFrame.add(gamePanel, BorderLayout.CENTER);
-        gamePanel.add(timerLabel, BorderLayout.NORTH);
+        sideTimerLabel = new JLabel();
+        sideTimerLabel.setHorizontalAlignment(JLabel.CENTER);
+        sideTimerLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
+        gameContainer.add(timerLabel, BorderLayout.NORTH);
+        gameContainer.add(gamePanel, BorderLayout.CENTER);
+
+        gamePanel.add(sideTimerLabel, BorderLayout.EAST);
+
+        gameFrame.add(gameContainer, BorderLayout.CENTER);
 
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
@@ -124,11 +135,18 @@ public class BubbleBurstGame {
     }
 
     private void setupTimer() {
-        int delay = INITIAL_TIMER_DELAY - (currentRound - 1) * TIMER_DECREASE_PER_ROUND;
-        timer = new Timer(delay, new ActionListener() {
+        int initialDelay = INITIAL_TIMER_DELAY - (currentRound - 1) * TIMER_DECREASE_PER_ROUND;
+        timer = new Timer(1000, new ActionListener() { // Timer ticks every second
+            int timeRemaining = initialDelay / 1000;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (roundInProgress) {
+                timeRemaining--;
+                if (timeRemaining >= 0) {
+                    timerLabel.setText("Time Remaining: " + timeRemaining + " seconds");
+                    sideTimerLabel.setText("Time Remaining: " + timeRemaining + " seconds");
+                    gamePanel.repaint();
+                } else {
                     endRound();
                 }
             }
@@ -137,11 +155,11 @@ public class BubbleBurstGame {
 
     private void endRound() {
         timer.stop();
-        if (!roundInProgress) {
-            gameOver("Game Over");
-        } else {
+        if (bubbles.isEmpty()) {
             roundInProgress = false;
             startNextRound();
+        } else {
+            gameOver("Game Over - You failed!");
         }
     }
 
@@ -152,9 +170,9 @@ public class BubbleBurstGame {
         }
         currentRound++;
         gameFrame.setTitle("Bubble Burst Game - Round " + currentRound);
-        spawnBubbles(); // Spawn bubbles for the next round
+        spawnBubbles();
         setupTimer();
-        timer.restart();
+        timer.start(); // Start the timer for the next round
         roundInProgress = true;
     }
 
