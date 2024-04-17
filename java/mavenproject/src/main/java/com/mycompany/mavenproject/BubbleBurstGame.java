@@ -27,6 +27,7 @@ public class BubbleBurstGame {
     private int currentRound;
     private ArrayList<Bubble> bubbles;
     private boolean roundInProgress;
+    private boolean isFirstRound = true;
 
     private final int PANEL_WIDTH = 600;
     private final int PANEL_HEIGHT = 400;
@@ -75,7 +76,11 @@ public class BubbleBurstGame {
         createGamePanel();
         mainFrame.setVisible(false);
         gameFrame.setVisible(true);
-        spawnBubbles();
+        if (isFirstRound) {
+            JOptionPane.showMessageDialog(gameFrame, "Click on the panel to select bubble locations.");
+        } else {
+            spawnBubbles();
+        }
         setupTimer();
         timer.start();
         roundInProgress = true;
@@ -121,11 +126,13 @@ public class BubbleBurstGame {
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (roundInProgress) {
+                if (roundInProgress && isFirstRound) {
+                    addBubble(e.getX(), e.getY());
+                } else if (roundInProgress) {
                     checkBubbleBurst(e.getX(), e.getY());
-                }
-                if (bubbles.isEmpty()) {
-                    endRound();
+                    if (bubbles.isEmpty()) {
+                        endRound();
+                    }
                 }
             }
         });
@@ -155,10 +162,10 @@ public class BubbleBurstGame {
 
     private void endRound() {
         timer.stop();
-        if (bubbles.isEmpty()) {
+        if (bubbles.isEmpty() && currentRound > 1) {
             roundInProgress = false;
             startNextRound();
-        } else {
+        } else if (currentRound > 1) {
             gameOver("Game Over - You failed!");
         }
     }
@@ -170,6 +177,7 @@ public class BubbleBurstGame {
         }
         currentRound++;
         gameFrame.setTitle("Bubble Burst Game - Round " + currentRound);
+        bubbles.clear(); // Clear positions from previous round
         spawnBubbles();
         setupTimer();
         timer.start(); // Start the timer for the next round
@@ -204,6 +212,18 @@ public class BubbleBurstGame {
             } while (overlap);
         }
         gamePanel.repaint();
+    }
+
+    private void addBubble(int x, int y) {
+        if (bubbles.size() < bubblesCount) {
+            bubbles.add(new Bubble(x - BUBBLE_RADIUS, y - BUBBLE_RADIUS));
+            gamePanel.repaint();
+            if (bubbles.size() == bubblesCount) {
+                isFirstRound = false;
+                endRound(); // End round 1 immediately after selecting all spots
+                startNextRound(); // Start round 2
+            }
+        }
     }
 
     private void checkBubbleBurst(int x, int y) {
