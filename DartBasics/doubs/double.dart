@@ -1,4 +1,4 @@
 void main() {
-  int myv = 35;
+  double myv = 2.99;
   print(myv);
 }
