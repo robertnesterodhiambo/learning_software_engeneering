@@ -1,1 +1,2 @@
 GIT_COMMITTER_DATE="2024-07-25T12:34:56" git commit --date "2024-07-25T12:34:56" -m "Your commit message"
+GIT_COMMITTER_DATE="2024-07-02T12:34:56" git commit --date "2024-07-02T12:34:56" -m "Your commit message"
