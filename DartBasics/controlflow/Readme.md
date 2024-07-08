@@ -1,6 +1,6 @@
 # Control flow 
 this is how  instructions are executed
-## verifying contion is met
+## verifying condition is met
 
    -if statements 
    ```dart
@@ -12,3 +12,16 @@ this is how  instructions are executed
      print("go sports");
      }
      }
+ 
+ ## Iteration until comtion is met
+ 
+ here we run until a condtion is satisfied
+ 
+    - while loop
+    ```dart
+    void main(){
+    bool istime =true;
+    while (istime){
+    print("Lets eat");
+    istime = false;
+    }
