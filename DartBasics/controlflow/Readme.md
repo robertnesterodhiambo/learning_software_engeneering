@@ -4,3 +4,11 @@ this is how  instructions are executed
 
    -if statements 
    ```dart
+   void main (){
+     bool football = true;
+     if(football){
+     print("go football);
+     } else {
+     print("go sports");
+     }
+     }
