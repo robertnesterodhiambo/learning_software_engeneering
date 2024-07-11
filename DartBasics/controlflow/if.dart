@@ -1,8 +1,8 @@
 void main() {
-  bool football = true;
-  if (football) {
-    print("Go football");
+  bool isCake = true;
+  if (isCake) {
+    print("Damah is one");
   } else {
-    print("go sports");
+    print("Dama is not");
   }
 }
