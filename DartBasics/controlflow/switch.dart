@@ -1,14 +1,14 @@
 void main() {
-  int child = 1;
-  switch (child) {
+  int num = 2;
+  switch (num) {
     case 1:
-      print("Bobby Junior is my first kid");
+      print("She only gve birth to one kid");
       break;
     case 2:
-      print("Princes Junior is my second kid");
+      print("she only gave brth to two kids");
       break;
     default:
-      print("I only have two kids");
+      print("she has no kids");
       break;
   }
 }
