@@ -1,4 +1,4 @@
-enum family { Spongebob, Patrick, Bjr, Sandy }
+enum family { Robert, Damah, BJR, Princes }
 
 void main() {
   print(family.values);
