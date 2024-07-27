@@ -11,16 +11,13 @@ GIT_COMMITTER_DATE="2024-05-24T12:34:56" git commit --date "2024-05-24T12:34:56"
 GIT_COMMITTER_DATE="2024-05-13T12:34:56" git commit --date "2024-05-13T12:34:56" -m "Commit for May 13th 2024"
 GIT_COMMITTER_DATE="2024-05-15T12:34:56" git commit --date "2024-05-15T12:34:56" -m "Commit for May 15th 2024"
 GIT_COMMITTER_DATE="2024-05-17T12:34:56" git commit --date "2024-05-17T12:34:56" -m "Commit for May 17th 2024"
-
 GIT_COMMITTER_DATE="2024-05-11T12:34:56" git commit --date "2024-05-11T12:34:56" -m "Commit for May 11th 2024"
-
 GIT_COMMITTER_DATE="2024-05-08T12:34:56" git commit --date "2024-05-08T12:34:56" -m "Commit for May 8th 2024"
 GIT_COMMITTER_DATE="2024-04-25T12:34:56" git commit --date "2024-04-25T12:34:56" -m "Commit for April 25th 2024"
 GIT_COMMITTER_DATE="2024-03-22T12:34:56" git commit --date "2024-03-22T12:34:56" -m "Commit for March 22nd 2024"
 GIT_COMMITTER_DATE="2024-03-10T12:34:56" git commit --date "2024-03-10T12:34:56" -m "Commit for March 10th 2024"
 GIT_COMMITTER_DATE="2024-03-11T12:34:56" git commit --date "2024-03-11T12:34:56" -m "Commit for March 11th 2024"
 GIT_COMMITTER_DATE="2024-03-14T12:34:56" git commit --date "2024-03-14T12:34:56" -m "Commit for March 14th 2024"
-
 GIT_COMMITTER_DATE="2024-02-27T12:34:56" git commit --date "2024-02-27T12:34:56" -m "Commit for February 27th 2024"
 GIT_COMMITTER_DATE="2024-02-14T12:34:56" git commit --date "2024-02-14T12:34:56" -m "Commit for February 14th 2024"
 GIT_COMMITTER_DATE="2024-02-05T12:34:56" git commit --date "2024-02-05T12:34:56" -m "Commit for February 5th 2024"
@@ -29,9 +26,6 @@ GIT_COMMITTER_DATE="2024-01-31T12:34:56" git commit --date "2024-01-31T12:34:56"
 GIT_COMMITTER_DATE="2024-01-01T12:34:56" git commit --date "2024-01-01T12:34:56" -m "Commit for January 1st 2024"
 GIT_COMMITTER_DATE="2024-01-11T12:34:56" git commit --date "2024-01-11T12:34:56" -m "Commit for January 11th 2024"
 GIT_COMMITTER_DATE="2024-01-14T12:34:56" git commit --date "2024-01-14T12:34:56" -m "Commit for January 14th 2024"
-
 GIT_COMMITTER_DATE="2024-01-16T12:34:56" git commit --date "2024-01-16T12:34:56" -m "Commit for January 16th 2024"
-
 GIT_COMMITTER_DATE="2024-01-23T12:34:56" git commit --date "2024-01-23T12:34:56" -m "Commit for January 23rd 2024"
-
 GIT_COMMITTER_DATE="2024-01-25T12:34:56" git commit --date "2024-01-25T12:34:56" -m "Commit for January 25th 2024"
