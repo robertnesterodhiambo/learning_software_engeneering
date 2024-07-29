@@ -14,8 +14,8 @@ void main() {
     return num1 * num1 * num1;
   }
 
-  print("Ex1  $value squared is $ex1Squared(value)");
-  print("Ex1  $value cubed is $ex1cubed(value)");
-  print("Ex2  $value squared is $ex2squared(value)");
-  print("Ex2  $value cubed is $ex2cubed(value)");
+  print("Ex1  $value squared is ${ex1Squared(value)}");
+  print("Ex1  $value cubed is ${ex1cubed(value)}");
+  print("Ex2  $value squared is ${ex2squared(value)}");
+  print("Ex2  $value cubed is ${ex2cubed(value)}");
 }
