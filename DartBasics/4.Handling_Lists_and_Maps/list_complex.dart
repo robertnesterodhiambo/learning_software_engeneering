@@ -5,5 +5,5 @@ void main() {
   List films = [FilmStarwars, FilmEmpire, FilmJedi];
   Map<String, dynamic> CurrentFilm = films[0];
   print(CurrentFilm);
-  print(CurrentFilm["tittle"]);
+  print(CurrentFilm["title"]);
 }
