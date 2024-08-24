@@ -1,0 +1,4 @@
+Order details:
+	Name: Fristname Secondname (0123456789)
+	Item: 'Buddha's Hand Citron Tree (LEMN046)
+	Pot size (inch): 8

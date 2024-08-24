@@ -3,9 +3,106 @@ import java.util.*;
 
 public class ItemSearcher {
     private Inventory inventory;
+    private Scanner scanner;
 
     public ItemSearcher(Inventory inventory) {
         this.inventory = inventory;
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void interactiveSearch() {
+        String category = promptForCategory();
+        String type = promptForType();
+        Boolean dwarf = promptForDwarf();
+        String trainingSystem = promptForTrainingSystem();
+        String[] pollinators = promptForPollinators();
+        int potSize = promptForPotSize();
+        double[] priceRange = promptForPriceRange();
+
+        List<FruitTree> results = search(category, type, dwarf, trainingSystem, pollinators, potSize, priceRange[0], priceRange[1]);
+        displayResults(results);
+
+        if (!results.isEmpty()) {
+            // Prompt for reservation
+            System.out.print("Would you like to reserve a tree from the results? (yes/no): ");
+            String reserveChoice = scanner.nextLine().trim().toLowerCase();
+            if (reserveChoice.equals("yes")) {
+                System.out.print("Enter the product code of the tree you'd like to reserve: ");
+                String productCode = scanner.nextLine().trim();
+                FruitTree treeToReserve = findTreeByProductCode(results, productCode);
+                if (treeToReserve != null) {
+                    System.out.print("Enter your name: ");
+                    String customerName = scanner.nextLine().trim();
+                    System.out.print("Enter your contact number: ");
+                    String contactNumber = scanner.nextLine().trim();
+                    try {
+                        reserveTree(treeToReserve, customerName, contactNumber);
+                        System.out.println("Reservation successful!");
+                    } catch (IOException e) {
+                        System.out.println("Error saving reservation: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("No tree found with the specified product code.");
+                }
+            }
+        } else {
+            suggestAlternatives(results);
+        }
+    }
+
+    private String promptForCategory() {
+        System.out.print("Enter category (e.g., citrus, pome, vine, stone fruit): ");
+        return scanner.nextLine().trim();
+    }
+
+    private String promptForType() {
+        System.out.print("Enter type (e.g., apple, lemon) or press Enter to skip: ");
+        String type = scanner.nextLine().trim();
+        return type.isEmpty() ? null : type;
+    }
+
+    private Boolean promptForDwarf() {
+        System.out.print("Is it a dwarf variety? (yes/no) or press Enter to skip: ");
+        String dwarfInput = scanner.nextLine().trim().toLowerCase();
+        if (dwarfInput.equals("yes")) return true;
+        if (dwarfInput.equals("no")) return false;
+        return null;
+    }
+
+    private String promptForTrainingSystem() {
+        System.out.print("Enter training system (e.g., trellis, pergola) or press Enter to skip: ");
+        String trainingSystem = scanner.nextLine().trim();
+        return trainingSystem.isEmpty() ? null : trainingSystem;
+    }
+
+    private String[] promptForPollinators() {
+        System.out.print("Enter recommended pollinators separated by commas or press Enter to skip: ");
+        String pollinatorsInput = scanner.nextLine().trim();
+        return pollinatorsInput.isEmpty() ? null : pollinatorsInput.split(",");
+    }
+
+    private int promptForPotSize() {
+        System.out.print("Enter pot size (inch): ");
+        return Integer.parseInt(scanner.nextLine().trim());
+    }
+
+    private double[] promptForPriceRange() {
+        System.out.print("Enter minimum price: ");
+        double minPrice = Double.parseDouble(scanner.nextLine().trim());
+
+        System.out.print("Enter maximum price: ");
+        double maxPrice = Double.parseDouble(scanner.nextLine().trim());
+
+        return new double[] {minPrice, maxPrice};
+    }
+
+    private FruitTree findTreeByProductCode(List<FruitTree> results, String productCode) {
+        for (FruitTree tree : results) {
+            if (tree.getProductCode().equalsIgnoreCase(productCode)) {
+                return tree;
+            }
+        }
+        return null;
     }
 
     public List<FruitTree> search(String category, String type, Boolean dwarf, String trainingSystem, String[] pollinators, int potSize, double minPrice, double maxPrice) {
@@ -16,11 +113,20 @@ public class ItemSearcher {
             if (dwarf != null && item.isDwarf() != dwarf) continue;
             if (trainingSystem != null && (item.getTrainingSystem() == null || !item.getTrainingSystem().equalsIgnoreCase(trainingSystem))) continue;
             if (pollinators != null && !Arrays.asList(item.getPollinators()).containsAll(Arrays.asList(pollinators))) continue;
-            if (item.getPotSize() != potSize) continue;
-            if (item.getPrice() < minPrice || item.getPrice() > maxPrice) continue;
+            if (!Arrays.asList(item.getPotSizeOptions()).contains(potSize)) continue;
+            if (!isPriceInRange(item.getPrices(), minPrice, maxPrice)) continue;
             results.add(item);
         }
         return results;
+    }
+
+    private boolean isPriceInRange(double[] prices, double minPrice, double maxPrice) {
+        for (double price : prices) {
+            if (price >= minPrice && price <= maxPrice) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void displayResults(List<FruitTree> results) {
@@ -38,7 +144,7 @@ public class ItemSearcher {
         String orderDetails = "Order details:\n" +
                               "Name: " + customerName + " (" + contactNumber + ")\n" +
                               "Item: '" + tree.getType() + "' Tree (" + tree.getItemId() + ")\n" +
-                              "Pot size (inch): " + tree.getPotSize() + "\n";
+                              "Pot size (inch): " + Arrays.toString(tree.getPotSizeOptions()) + "\n";
         saveReservation(orderDetails);
     }
 
@@ -64,28 +170,8 @@ public class ItemSearcher {
             Inventory inventory = new Inventory("inventory_v2.txt");
             ItemSearcher searcher = new ItemSearcher(inventory);
 
-            // Example search
-            String category = "citrus"; // Example input
-            String type = null; // Example input
-            Boolean dwarf = null; // Example input
-            String trainingSystem = null; // Example input
-            String[] pollinators = null; // Example input
-            int potSize = 10; // Example input
-            double minPrice = 10.0; // Example input
-            double maxPrice = 50.0; // Example input
-
-            List<FruitTree> results = searcher.search(category, type, dwarf, trainingSystem, pollinators, potSize, minPrice, maxPrice);
-            searcher.displayResults(results);
-
-            if (!results.isEmpty()) {
-                // Example reservation
-                FruitTree treeToReserve = results.get(0); // Just an example
-                String customerName = "Dr. Walter Shepman";
-                String contactNumber = "0486756465";
-                searcher.reserveTree(treeToReserve, customerName, contactNumber);
-            } else {
-                searcher.suggestAlternatives(results);
-            }
+            // Start the interactive search
+            searcher.interactiveSearch();
 
         } catch (IOException e) {
             e.printStackTrace();
