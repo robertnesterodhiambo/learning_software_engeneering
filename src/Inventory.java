@@ -1,32 +1,48 @@
+import java.io.*;
 import java.util.*;
 
 public class Inventory {
+    private List<FruitTree> items;
 
-    private final Set<CitrusTree> inventory = new HashSet<>();
-
-    public void addItem(CitrusTree citrusTree){
-        this.inventory.add(citrusTree);
+    public Inventory(String inventoryFile) throws IOException {
+        items = new ArrayList<>();
+        loadInventory(inventoryFile);
     }
 
-    public Set<String> getAllTypes(){
-        Set<String> allTypes = new LinkedHashSet<>();
-        for(CitrusTree citrusTree: inventory){
-            allTypes.add(citrusTree.getType());
+    private void loadInventory(String inventoryFile) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(inventoryFile));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            try {
+                String[] parts = line.split(","); // Assuming CSV format
+                if (parts.length < 8) {
+                    System.err.println("Skipping invalid line: " + line);
+                    continue; // Skip this line if it's not valid
+                }
+
+                String category = parts[0];
+                String type = parts[1];
+                boolean dwarf = Boolean.parseBoolean(parts[2]);
+                String trainingSystem = parts[3].isEmpty() ? null : parts[3];
+                String[] pollinators = parts[4].isEmpty() ? new String[] {} : parts[4].split(";");
+                int potSize = Integer.parseInt(parts[5]);
+                double price = Double.parseDouble(parts[6]);
+                String itemId = parts[7];
+
+                FruitTree tree = new FruitTree(category, type, dwarf, trainingSystem, pollinators, potSize, price, itemId);
+                items.add(tree);
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing number from line: " + line);
+                e.printStackTrace();
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println("Error with line format: " + line);
+                e.printStackTrace();
+            }
         }
-        return allTypes;
+        reader.close();
     }
 
-    public List<CitrusTree> findMatch(CitrusTree dreamCitrusTree){
-        List<CitrusTree> matching = new ArrayList<>();
-        for(CitrusTree citrusTree: inventory){
-            if(!citrusTree.getType().equals(dreamCitrusTree.getType())) continue;
-            if(!citrusTree.getPotSizeToPriceOptions().containsKey(dreamCitrusTree.getPotSize())) continue;
-            if(citrusTree.isDwarf() != dreamCitrusTree.isDwarf()) continue;
-            Float correspondingPrice = citrusTree.getPotSizeToPriceOptions().get(dreamCitrusTree.getPotSize());
-            if(correspondingPrice < dreamCitrusTree.getMinPrice() || correspondingPrice > dreamCitrusTree.getMaxPrice()) continue;
-            matching.add(citrusTree);
-        }
-        return matching;
+    public List<FruitTree> getItems() {
+        return items;
     }
-
 }
