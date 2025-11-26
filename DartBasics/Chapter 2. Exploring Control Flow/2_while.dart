@@ -1,16 +1,13 @@
-void main() {
-  bool is_foot = true;
-  bool is_bask = false;
+void main(){
+   bool is_foot = true;
+  bool is_bask = true;
 
-  if(is_foot){
-    print("Go Man U");
-  } else {
-    print("Chelsea sucks");
+  while(is_foot){
+    print("Go MAn U");
+    is_foot = false; //only one reesult
   }
 
-  if(is_bask) {
-    print("Go Lebron");
-  } else {
-    print("Curry Sucks");
-  }
+  while(is_bask){
+    print("Curry Sucks"); //endless 
+  } 
 }
