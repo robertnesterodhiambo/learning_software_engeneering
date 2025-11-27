@@ -1,43 +1,54 @@
+import math
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import numpy as np
-from mpmath import mp
 
-# --------------------------------------------
-# Compute PI digits using mpmath
-# --------------------------------------------
-N = 500  # number of digits
-mp.dps = N + 5  # precision
+# --- SETTINGS ---
+NUM_DIGITS = 2000         # How many digits of π to animate
+RADIUS = 50               # Circle radius
+DRAW_SPEED = 300          # ms between frames
 
-pi_str = str(mp.pi)
-pi_digits = pi_str.replace(".", "")[1:N+1]
-digits = [int(d) for d in pi_digits]
+# Convert π to digits
+pi_digits = str(math.pi).replace(".", "")[:NUM_DIGITS]
 
-# --------------------------------------------
-# Prepare circle layout (0–9 around circle)
-# --------------------------------------------
-angles = np.linspace(0, 2 * np.pi, 10, endpoint=False)
-x = np.cos(angles)
-y = np.sin(angles)
-pos = {digit: (x[i], y[i]) for i, digit in enumerate(range(10))}
+# Convert each digit (0–9) to an angle
+angles = [(int(d) / 10) * 2 * math.pi for d in pi_digits]
 
-# --------------------------------------------
-# Plot
-# --------------------------------------------
-plt.figure(figsize=(8, 8))
+# Pre-compute circle positions
+xs = [RADIUS * math.cos(a) for a in angles]
+ys = [RADIUS * math.sin(a) for a in angles]
 
-# Draw labeled circle points
-for d in range(10):
-    px, py = pos[d]
-    plt.scatter(px, py, s=200)
-    plt.text(px, py, str(d), fontsize=16, ha='center', va='center', color='white')
+# --- PLOT SETUP ---
+fig, ax = plt.subplots(figsize=(6, 6))
+ax.set_aspect("equal")
+ax.set_xlim(-RADIUS - 1, RADIUS + 1)
+ax.set_ylim(-RADIUS - 1, RADIUS + 1)
+ax.set_title("Animated π Digits Around a Circle")
+ax.axis("off")
 
-# Connect lines following π digits
-for i in range(len(digits) - 1):
-    d1, d2 = digits[i], digits[i + 1]
-    x_vals = [pos[d1][0], pos[d2][0]]
-    y_vals = [pos[d1][1], pos[d2][1]]
-    plt.plot(x_vals, y_vals, alpha=0.3)
+line, = ax.plot([], [], lw=1.5, color="blue")
+point, = ax.plot([], [], 'ro', markersize=6)
 
-plt.title(f"Circle Visualization of First {N} Digits of π", fontsize=16)
-plt.axis("off")
+# Draw the circle outline
+theta = np.linspace(0, 2 * math.pi, 300)
+ax.plot(RADIUS * np.cos(theta), RADIUS * np.sin(theta), color="gray")
+
+# --- ANIMATION FUNCTION ---
+def update(frame):
+    # Draw trajectory so far
+    line.set_data(xs[:frame], ys[:frame])
+    
+    # Draw current point (as list, not scalar)
+    point.set_data([xs[frame - 1]], [ys[frame - 1]])
+
+    return line, point
+
+ani = animation.FuncAnimation(
+    fig,
+    update,
+    frames=len(xs),
+    interval=DRAW_SPEED,
+    blit=True
+)
+
 plt.show()
