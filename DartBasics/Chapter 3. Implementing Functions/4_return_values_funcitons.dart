@@ -1,4 +1,4 @@
-DateTime CurremtTimef(int hour){
+DateTime CurremtTimef(int hour){ //Not function is not void to esure it doesent reutn void
   DateTime timenow = DateTime.now();
   DateTime timediff = timenow.add(Duration(hours: hour));
 
