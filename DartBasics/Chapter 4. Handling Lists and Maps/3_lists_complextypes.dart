@@ -8,4 +8,6 @@ void main(){
 
   Map<String, dynamic> currentfilm = film_list[0];
   print(currentfilm);
+
+  print(currentfilm["Title"]);
 }
