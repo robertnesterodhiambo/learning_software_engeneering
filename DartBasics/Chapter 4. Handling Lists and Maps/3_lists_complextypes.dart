@@ -5,4 +5,7 @@ void main(){
 
   List film_list = [film1, film2, film3];
   film_list.forEach(print);
+
+  Map<String, dynamic> currentfilm = film_list[0];
+  print(currentfilm);
 }
