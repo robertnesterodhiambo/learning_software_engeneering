@@ -13,5 +13,6 @@ class NumDaysLeft {
 
 void main(){
   final daysleft = NumDaysLeft();
-  print("The number of days left is  $daysleft");
+  //  print("The number of days left is  $daysleft");
+  print("The number of days left is  ${daysleft.HowManyDaysLeft()}"); 
 }
