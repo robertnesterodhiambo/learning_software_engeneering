@@ -1,9 +1,9 @@
-void main () {
+void main(){
   String single = "Single String";
-  String multimple = """ 
-     Mulitple string     
-     Mulitple string 
+  String doble_String = """
+  This is a doble string
+  Has mulitple lines
   """;
   print(single);
-  print(multimple);
+  print(doble_String);
 }

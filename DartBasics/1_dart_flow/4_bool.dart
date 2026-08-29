@@ -1,4 +1,4 @@
 void main(){
-  bool one = true;
-  print(one);
+  bool value= true;
+  print("The value of the boolean variable is: $value");
 }
