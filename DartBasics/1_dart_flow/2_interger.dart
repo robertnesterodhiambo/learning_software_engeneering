@@ -1,4 +1,4 @@
 void main(){
-  int myva = 23;
-  print(myva);
+  int age = 25;
+  print("Mya age is  $age");
 }
