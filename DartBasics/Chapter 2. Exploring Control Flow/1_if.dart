@@ -1,15 +1,16 @@
 void main(){
-  bool is_footbal = true;
-  if(is_footbal){
-    print("Go Man U");
-  } else {
-    print("Fuck Chelsea");
-  }
+bool is_fotball = true;
+if(is_fotball) {
+  print("Go Man U");
+} else {
+  print("Chelsea Sucks");
+}
 
-  bool is_basket = false;
-  if(is_basket){
-    print("Go LEbrons");
-  } else {
-    print("Curry Sucks");
-  }
+bool is_basket = true;
+if(is_basket){
+  print("Go Lebron");
+} else {
+  print("Curry Sucks");
+}
+
 }
